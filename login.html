@@ -55,6 +55,14 @@
       color: #628aa0;
       text-decoration: none;
     }
+    .demo-info {
+      background: #eef2fa;
+      padding: 12px;
+      border-radius: 15px;
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -63,55 +71,91 @@
   <h1>لوحة تحكم المعلم</h1>
   <div class="input-group">
     <label><i class="fas fa-user"></i> اسم المستخدم</label>
-    <input type="text" id="username" placeholder="admin">
+    <input type="text" id="username" placeholder="admin" autocomplete="off">
   </div>
   <div class="input-group">
     <label><i class="fas fa-lock"></i> كلمة المرور</label>
-    <input type="password" id="password" placeholder="********">
+    <input type="password" id="password" placeholder="••••••">
   </div>
   <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
   <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+  <div class="demo-info">
+    <i class="fas fa-info-circle"></i> حساب المدير: admin | 123456
+  </div>
 </div>
 
 <script src="data-config.js"></script>
 <script>
+  // التحقق إذا كان المستخدم مسجل دخولاً بالفعل
+  if (localStorage.getItem("loggedIn") === "true") {
+    window.location.href = "admin-panel.html";
+  }
+
   function doLogin() {
-    const user = document.getElementById("username").value;
+    const user = document.getElementById("username").value.trim();
     const pass = document.getElementById("password").value;
+    
+    if (user === "" || pass === "") {
+      Swal.fire('تنبيه', 'الرجاء إدخال اسم المستخدم وكلمة المرور', 'warning');
+      return;
+    }
+    
+    // التحقق من المدير الرئيسي
     const correctUser = window.siteConfig?.adminUsername || "admin";
     const correctPass = window.siteConfig?.adminPassword || "123456";
     
     if (user === correctUser && pass === correctPass) {
+      // تخزين بيانات الجلسة
       localStorage.setItem("loggedIn", "true");
       localStorage.setItem("adminUser", user);
+      localStorage.setItem("userRole", "admin");
+      localStorage.setItem("userName", "المدير العام");
+      
       Swal.fire({
         icon: 'success',
-        title: 'تم تسجيل الدخول',
-        text: 'مرحباً بك',
+        title: 'مرحباً بك أيها المدير',
+        text: 'جاري تحويلك إلى لوحة التحكم...',
         timer: 1500,
         showConfirmButton: false
       }).then(() => {
         window.location.href = "admin-panel.html";
       });
-    } else {
-      const teacher = window.siteConfig?.teachers?.find(t => t.username === user && t.password === pass);
-      if (teacher) {
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("adminUser", user);
-        localStorage.setItem("teacherSubject", teacher.subject);
-        Swal.fire({
-          icon: 'success',
-          title: `مرحباً ${teacher.fullName}`,
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
-          window.location.href = "admin-panel.html";
-        });
-      } else {
-        Swal.fire('خطأ', 'بيانات الدخول غير صحيحة', 'error');
-      }
+      return;
     }
+    
+    // التحقق من المعلمين الإضافيين
+    const teachers = window.siteConfig?.teachers || [];
+    const foundTeacher = teachers.find(t => t.username === user && t.password === pass);
+    
+    if (foundTeacher) {
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("adminUser", user);
+      localStorage.setItem("userRole", "teacher");
+      localStorage.setItem("userName", foundTeacher.fullName);
+      localStorage.setItem("teacherSubject", foundTeacher.subject);
+      
+      Swal.fire({
+        icon: 'success',
+        title: `مرحباً أستاذ ${foundTeacher.fullName}`,
+        text: 'جاري تحويلك إلى لوحة التحكم...',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = "admin-panel.html";
+      });
+      return;
+    }
+    
+    // فشل تسجيل الدخول
+    Swal.fire('خطأ', 'اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
   }
+  
+  // السماح بالدخول بالضغط على Enter
+  document.getElementById("password").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      doLogin();
+    }
+  });
 </script>
 </body>
 </html>
