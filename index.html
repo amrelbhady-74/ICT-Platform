@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة البرمجة التعليمية - الرئيسية</title>
+  <title>منصة البرمجة التعليمية</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,7 +68,6 @@
       text-decoration: none;
       margin-top: 1rem;
     }
-    /* إعلانات */
     .ad-banner {
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: white;
@@ -93,9 +92,8 @@
     <p>تعلم البرمجة وال ICT من الصف السادس حتى الثانوية</p>
   </div>
 
-  <!-- إعلان متقدم -->
   <div class="ad-banner" id="adBanner1">
-    <i class="fas fa-graduation-cap"></i> 🎓 عرض خاص: خصم 50% على دورات البرمجة - اضغط هنا
+    <i class="fas fa-graduation-cap"></i> 🎓 عرض خاص: خصم 50% على دورات البرمجة
   </div>
 
   <div id="dynamicContent" class="editable-content"></div>
@@ -103,13 +101,12 @@
   <h2><i class="fas fa-graduation-cap"></i> اختر صفك الدراسي</h2>
   <div class="grades-grid" id="gradesGrid"></div>
 
-  <!-- إعلان ثاني -->
   <div class="ad-banner" id="adBanner2">
-    <i class="fas fa-cloud-upload-alt"></i> 📚 رفع الملفات التعليمية متاح الآن لكل مادة!
+    <i class="fas fa-cloud-upload-alt"></i> 📚 رفع الملفات التعليمية متاح لكل مادة
   </div>
 
   <footer>
-    <i class="fas fa-code"></i> منصة تعليمية متكاملة - يمكنك تعديل المحتوى من ملف data-config.js
+    <i class="fas fa-code"></i> منصة تعليمية متكاملة
   </footer>
 </div>
 
@@ -119,8 +116,6 @@
     const container = document.getElementById('dynamicContent');
     if (window.siteConfig && window.siteConfig.homeContent) {
       container.innerHTML = window.siteConfig.homeContent;
-    } else {
-      container.innerHTML = `<h2>مرحباً بك في منصة تعلم البرمجة</h2><p>هنا ستجد كل ما تحتاجه لتعلم مادة الـ ICT والبرمجة.</p>`;
     }
   }
 
@@ -138,12 +133,9 @@
     }
   }
 
-  // إعلانات دائرية
-  const adsList = [
-    "🔥 اشترك الآن في دورة Python الشاملة بسعر 199 جنيه فقط!",
-    "📱 تطبيقنا الجديد للبرمجة متوفر على Google Play",
-    "🎯 مسابقة أفضل مشروع برمجي - الجائزة 5000 جنيه",
-    "💻 خصم 30% على جميع كورسات Udemy باستخدام كود: EDU2025"
+  const adsList = window.siteConfig?.ads?.messages || [
+    "🔥 اشترك الآن في دورة Python الشاملة",
+    "📱 تطبيقنا الجديد متوفر على Google Play"
   ];
   let adIndex = 0;
   setInterval(() => {
@@ -152,7 +144,6 @@
     document.getElementById("adBanner2").innerHTML = `<i class="fas fa-megaphone"></i> ${adsList[(adIndex+2)%adsList.length]}`;
   }, 8000);
 
-  // روابط إعلانات
   document.getElementById("adBanner1").onclick = () => window.open("https://www.udemy.com", "_blank");
   document.getElementById("adBanner2").onclick = () => window.open("https://www.coursera.org", "_blank");
 

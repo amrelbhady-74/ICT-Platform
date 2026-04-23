@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول - لوحة المعلم</title>
+  <title>تسجيل الدخول</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
@@ -55,13 +55,6 @@
       color: #628aa0;
       text-decoration: none;
     }
-    .info {
-      background: #eef2fa;
-      padding: 15px;
-      border-radius: 15px;
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-    }
   </style>
 </head>
 <body>
@@ -78,9 +71,6 @@
   </div>
   <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
   <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
-  <div class="info">
-    
-  </div>
 </div>
 
 <script src="data-config.js"></script>
@@ -97,14 +87,29 @@
       Swal.fire({
         icon: 'success',
         title: 'تم تسجيل الدخول',
-        text: 'مرحباً بك في لوحة التحكم',
+        text: 'مرحباً بك',
         timer: 1500,
         showConfirmButton: false
       }).then(() => {
         window.location.href = "admin-panel.html";
       });
     } else {
-      Swal.fire('خطأ', 'اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
+      const teacher = window.siteConfig?.teachers?.find(t => t.username === user && t.password === pass);
+      if (teacher) {
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("adminUser", user);
+        localStorage.setItem("teacherSubject", teacher.subject);
+        Swal.fire({
+          icon: 'success',
+          title: `مرحباً ${teacher.fullName}`,
+          timer: 1500,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.href = "admin-panel.html";
+        });
+      } else {
+        Swal.fire('خطأ', 'بيانات الدخول غير صحيحة', 'error');
+      }
     }
   }
 </script>

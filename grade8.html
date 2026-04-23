@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>الصف الدراسي - منصة البرمجة</title>
+  <title>الصف الدراسي</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,15 +24,13 @@
     <p>اختر المادة الدراسية:</p>
   </div>
   <div id="subjectsContainer" class="subjects-grid"></div>
-  <footer>جميع الحقوق محفوظة - يمكنك تعديل المواد من data-config.js</footer>
+  <footer>جميع الحقوق محفوظة</footer>
 </div>
 <script src="data-config.js"></script>
 <script>
-  // تحديد الصف الحالي من اسم الملف (مثلاً grade6.html)
   const currentFile = window.location.pathname.split('/').pop().replace('.html', '');
-  const gradeKey = currentFile; // grade6, grade7, grade8, grade9, grade10, grade11
+  const gradeKey = currentFile;
 
-  // عرض اسم الصف
   const gradeNames = {
     "grade6": "الصف السادس الابتدائي",
     "grade7": "الصف الأول الإعدادي",
@@ -43,19 +41,16 @@
   };
   document.getElementById("gradeName").innerText = gradeNames[gradeKey] || "الصف الدراسي";
 
-  // جلب مواد هذا الصف من الكونفيغ
   let subjectsList = [];
   if (window.siteConfig && window.siteConfig.subjects && window.siteConfig.subjects[gradeKey]) {
     subjectsList = window.siteConfig.subjects[gradeKey];
   } else {
-    // مواد افتراضية
     subjectsList = ["ICT", "الرياضيات", "العلوم"];
   }
 
-  // عرض المواد على شكل بطاقات
   const container = document.getElementById("subjectsContainer");
   container.innerHTML = subjectsList.map(subject => `
-    <div class="subject-card" onclick="location.href='subject.html?grade=${gradeKey}&subject=${encodeURIComponent(subject)}'">
+    <div class="subject-card" onclick="location.href='subject-template-advanced.html?grade=${gradeKey}&subject=${encodeURIComponent(subject)}'">
       <i class="fas fa-book" style="font-size: 2rem; color: #1f6e8c;"></i>
       <h3>${subject}</h3>
       <p>اضغط للدخول للمادة</p>
