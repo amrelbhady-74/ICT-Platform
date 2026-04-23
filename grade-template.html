@@ -1,71 +1,57 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>الصف الدراسي</title>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-     const signature = window.siteConfig?.siteSignature || "✍️ منصة سهلها عليك";
-    document.getElementById("signatureText").innerText = signature;
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #f5f7fc; font-family: 'Segoe UI', 'Cairo', sans-serif; padding: 2rem; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .header { background: white; padding: 1.5rem; border-radius: 30px; margin-bottom: 2rem; text-align: center; }
-    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
-    .subject-card { background: white; border-radius: 25px; padding: 1.5rem; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #ddd; }
-    .subject-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-    .btn-back { background: #1f6e8c; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
-    footer { text-align: center; margin-top: 3rem; color: #628aa0; }
-  </style>
+    <meta charset="UTF-8">
+    <title>الصف الدراسي - سهلها عليك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f5f7fc; font-family: 'Cairo', sans-serif; padding: 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 1.5rem; border-radius: 30px; margin-bottom: 2rem; text-align: center; }
+        .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+        .subject-card { background: white; border-radius: 25px; padding: 1.5rem; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #ddd; }
+        .subject-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .btn-back { background: #1f6e8c; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
+        footer { text-align: center; margin-top: 3rem; padding: 1rem; border-top: 1px solid #ddd; color: #628aa0; }
+        .signature { font-size: 0.9rem; margin-top: 8px; color: #2c3e66; }
+    </style>
 </head>
 <body>
 <div class="container">
-  <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
-  <div class="header">
-    <h1 id="gradeName"></h1>
-    <p>اختر المادة الدراسية:</p>
-  </div>
-  <div id="subjectsContainer" class="subjects-grid"></div>
-  <footer>جميع الحقوق محفوظة</footer>
+    <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+    <div class="header">
+        <h1 id="gradeName"></h1>
+        <p>اختر المادة الدراسية:</p>
+    </div>
+    <div id="subjectsContainer" class="subjects-grid"></div>
+    <footer>
+        <div>© 2025 منصة سهلها عليك</div>
+        <div class="signature">✍️ <strong>م.عمرو ابراهيم البهادي</strong> – للتواصل: 01112151629</div>
+    </footer>
 </div>
 <script src="data-config.js"></script>
 <script>
-  const currentFile = window.location.pathname.split('/').pop().replace('.html', '');
-  const gradeKey = currentFile;
-
-  const gradeNames = {
-    "grade6": "الصف السادس الابتدائي",
-    "grade7": "الصف الأول الإعدادي",
-    "grade8": "الصف الثاني الإعدادي",
-    "grade9": "الصف الثالث الإعدادي",
-    "grade10": "الصف الأول الثانوي",
-    "grade11": "الصف الثاني الثانوي"
-  };
-  document.getElementById("gradeName").innerText = gradeNames[gradeKey] || "الصف الدراسي";
-
-  let subjectsList = [];
-  if (window.siteConfig && window.siteConfig.subjects && window.siteConfig.subjects[gradeKey]) {
-    subjectsList = window.siteConfig.subjects[gradeKey];
-  } else {
-    subjectsList = ["ICT", "الرياضيات", "العلوم"];
-  }
-
-  const container = document.getElementById("subjectsContainer");
-  container.innerHTML = subjectsList.map(subject => `
-    <div class="subject-card" onclick="location.href='subject-template-advanced.html?grade=${gradeKey}&subject=${encodeURIComponent(subject)}'">
-      <i class="fas fa-book" style="font-size: 2rem; color: #1f6e8c;"></i>
-      <h3>${subject}</h3>
-      <p>اضغط للدخول للمادة</p>
-    </div>
-  `).join('');
+    const currentFile = window.location.pathname.split('/').pop().replace('.html', '');
+    const gradeKey = currentFile;
+    const gradeNames = {
+        "grade6": "الصف السادس الابتدائي",
+        "grade7": "الصف الأول الإعدادي",
+        "grade8": "الصف الثاني الإعدادي",
+        "grade9": "الصف الثالث الإعدادي",
+        "grade10": "الصف الأول الثانوي",
+        "grade11": "الصف الثاني الثانوي"
+    };
+    document.getElementById("gradeName").innerText = gradeNames[gradeKey] || "الصف الدراسي";
+    let subjectsList = window.siteConfig?.subjects?.[gradeKey] || ["ICT", "الرياضيات", "العلوم"];
+    const container = document.getElementById("subjectsContainer");
+    container.innerHTML = subjectsList.map(subject => `
+        <div class="subject-card" onclick="location.href='subject-template-advanced.html?grade=${gradeKey}&subject=${encodeURIComponent(subject)}'">
+            <i class="fas fa-book" style="font-size: 2rem; color: #1f6e8c;"></i>
+            <h3>${subject}</h3>
+            <p>اضغط للدخول للمادة</p>
+        </div>
+    `).join('');
 </script>
 </body>
 </html>
