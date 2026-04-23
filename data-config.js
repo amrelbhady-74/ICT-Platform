@@ -299,3 +299,4 @@ window.formatDate = function(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
 };
+siteSignature: " تصميم وتطوير: م. عمرو ابراهيم البهادي | جميع الحقوق محفوظة"✍️ للتواصل 01112151629,
