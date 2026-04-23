@@ -1,295 +1,270 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>مادة تعليمية</title>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-     const signature = window.siteConfig?.siteSignature || "✍️ منصة سهلها عليك";
-    document.getElementById("signatureText").innerText = signature;
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #f0f4f8; font-family: 'Cairo', 'Segoe UI', sans-serif; padding: 2rem; }
-    .container { max-width: 1200px; margin: auto; background: white; border-radius: 30px; padding: 2rem; }
-    .btn-back { background: #1f6e8c; color: white; padding: 8px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
-    .video-container { margin: 1.5rem 0; text-align: center; }
-    iframe { width: 100%; height: 350px; border-radius: 20px; }
-    .resources { margin: 1.5rem 0; }
-    .resource-item { background: #f8fafc; padding: 10px; margin: 8px 0; border-radius: 15px; }
-    .upload-area { border: 2px dashed #1f6e8c; padding: 1.5rem; border-radius: 20px; margin-top: 2rem; background: #f9fbfe; }
-    button { background: #1f6e8c; color: white; border: none; padding: 8px 20px; border-radius: 25px; cursor: pointer; margin: 5px; }
-    .file-card { background: #eef2f9; padding: 12px; margin: 10px 0; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-    .file-info { flex: 1; }
-    .file-actions { display: flex; gap: 8px; }
-    .ad-container { background: linear-gradient(135deg, #ffd89b, #19547b); padding: 12px; border-radius: 15px; text-align: center; margin: 15px 0; cursor: pointer; color: white; }
-    .teacher-badge { background: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; }
-    .like-btn, .download-btn { background: none; border: none; font-size: 1.1rem; cursor: pointer; padding: 5px 10px; border-radius: 20px; transition: 0.2s; }
-    .like-btn:hover, .download-btn:hover { background: #e0e7f0; }
-    @media (max-width: 700px) { body { padding: 1rem; } .file-card { flex-direction: column; text-align: center; } .file-actions { margin-top: 8px; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مادة تعليمية - سهلها عليك</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #f0f4f8; font-family: 'Cairo', 'Segoe UI', sans-serif; padding: 2rem; }
+        .container { max-width: 1200px; margin: auto; background: white; border-radius: 30px; padding: 2rem; }
+        .btn-back { background: #1f6e8c; color: white; padding: 8px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
+        .video-container { margin: 1.5rem 0; text-align: center; }
+        iframe { width: 100%; height: 350px; border-radius: 20px; }
+        .resources { margin: 1.5rem 0; }
+        .resource-item { background: #f8fafc; padding: 10px; margin: 8px 0; border-radius: 15px; }
+        .upload-area { border: 2px dashed #1f6e8c; padding: 1.5rem; border-radius: 20px; margin-top: 2rem; background: #f9fbfe; }
+        button { background: #1f6e8c; color: white; border: none; padding: 8px 20px; border-radius: 25px; cursor: pointer; margin: 5px; }
+        .file-card { background: #eef2f9; padding: 12px; margin: 10px 0; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .file-info { flex: 1; }
+        .file-actions { display: flex; gap: 8px; }
+        .ad-container { background: linear-gradient(135deg, #ffd89b, #19547b); padding: 12px; border-radius: 15px; text-align: center; margin: 15px 0; cursor: pointer; color: white; }
+        .teacher-badge { background: #27ae60; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; }
+        footer { text-align: center; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #ddd; color: #628aa0; }
+        .signature { font-size: 0.9rem; margin-top: 8px; color: #2c3e66; }
+        @media (max-width: 700px) { body { padding: 1rem; } .file-card { flex-direction: column; text-align: center; } }
+    </style>
 </head>
 <body>
 <div class="container">
-  <a href="#" id="backLink" class="btn-back"><i class="fas fa-arrow-right"></i> العودة للصف</a>
-  
-  <!-- شارة المعلم إن كان مسجل دخول -->
-  <div id="teacherBadge"></div>
-  
-  <div id="subjectHeader"></div>
+    <a href="#" id="backLink" class="btn-back"><i class="fas fa-arrow-right"></i> العودة للصف</a>
+    
+    <div id="teacherBadge"></div>
+    <div id="subjectHeader"></div>
 
-  <div class="ad-container" id="subjectAd">
-    <i class="fas fa-ad"></i> 📢 دورة البرمجة الشاملة - اشترك الآن
-  </div>
+    <div class="ad-container" id="subjectAd">
+        <i class="fas fa-ad"></i> 📢 دورة البرمجة الشاملة - اشترك الآن
+    </div>
 
-  <div class="video-container" id="videoSection"></div>
-  <div class="resources" id="resourcesSection"></div>
-  <div id="extraHTML"></div>
+    <div class="video-container" id="videoSection"></div>
+    <div class="resources" id="resourcesSection"></div>
+    <div id="extraHTML"></div>
 
-  <!-- قسم رفع الملفات - يظهر للمعلمين فقط -->
-  <div id="uploadSection" style="display: none;" class="upload-area">
-    <h3><i class="fas fa-upload"></i> رفع ملف تعليمي جديد</h3>
-    <input type="file" id="subjectFile" style="margin:10px 0">
-    <input type="text" id="fileDesc" placeholder="وصف الملف" style="width:70%; padding:8px; border-radius:20px; border:1px solid #ccc;">
-    <button id="uploadSubjectBtn"><i class="fas fa-cloud-upload-alt"></i> رفع الملف</button>
-  </div>
+    <!-- قسم رفع الملفات (للمعلمين فقط) -->
+    <div id="uploadSection" style="display: none;" class="upload-area">
+        <h3><i class="fas fa-upload"></i> رفع ملف تعليمي جديد</h3>
+        <input type="file" id="subjectFile" style="margin:10px 0">
+        <input type="text" id="fileDesc" placeholder="وصف الملف" style="width:70%; padding:8px; border-radius:20px; border:1px solid #ccc;">
+        <button id="uploadSubjectBtn"><i class="fas fa-cloud-upload-alt"></i> رفع الملف</button>
+    </div>
 
-  <!-- قائمة الملفات المرفوعة -->
-  <h3 id="filesTitle"><i class="fas fa-file-alt"></i> الملفات التعليمية</h3>
-  <div id="subjectFilesList"></div>
+    <h3><i class="fas fa-file-alt"></i> الملفات التعليمية</h3>
+    <div id="subjectFilesList"></div>
 
-  <div class="ad-container" id="bottomAd">
-    <i class="fas fa-gift"></i> احصل على تخزين سحابي مجاني
-  </div>
+    <div class="ad-container" id="bottomAd">
+        <i class="fas fa-gift"></i> احصل على تخزين سحابي مجاني
+    </div>
+
+    <footer>
+        <div>© 2025 منصة سهلها عليك – جميع الحقوق محفوظة</div>
+        <div class="signature">
+            ✍️ <strong>م.عمرو ابراهيم البهادي</strong> – للتواصل: 01112151629
+        </div>
+    </footer>
 </div>
 
 <script src="data-config.js"></script>
 <script>
-  // ========== IndexedDB Setup ==========
-  const DB_NAME = "EduPlatformDB";
-  const STORE = "files";
-  let db;
-  
-  // التحقق من تسجيل دخول المعلم
-  const isLoggedIn = localStorage.getItem("loggedIn") === "true";
-  const currentUser = localStorage.getItem("adminUser") || "";
-  const teacherSubject = localStorage.getItem("teacherSubject") || "";
-  
-  // عرض شارة المعلم للمعلمين فقط
-  if (isLoggedIn) {
-    document.getElementById("teacherBadge").innerHTML = `<div class="teacher-badge"><i class="fas fa-chalkboard-teacher"></i> مرحباً معلم ${currentUser} - يمكنك رفع وحذف الملفات</div>`;
-    document.getElementById("uploadSection").style.display = "block";
-  }
-  
-  function openDB() {
-    return new Promise((resolve) => {
-      let request = indexedDB.open(DB_NAME, 1);
-      request.onupgradeneeded = (e) => {
-        db = e.target.result;
-        if (!db.objectStoreNames.contains(STORE)) {
-          db.createObjectStore(STORE, { keyPath: "id", autoIncrement: true });
-        }
-      };
-      request.onsuccess = (e) => { db = e.target.result; resolve(); };
-      request.onerror = () => resolve();
-    });
-  }
-
-  async function addFileToDB(fileObj) {
-    return new Promise((resolve) => {
-      let tx = db.transaction(STORE, "readwrite");
-      let store = tx.objectStore(STORE);
-      store.add(fileObj);
-      tx.oncomplete = resolve;
-    });
-  }
-
-  async function getFilesByGradeAndSubject(grade, subject) {
-    return new Promise((resolve) => {
-      let tx = db.transaction(STORE, "readonly");
-      let store = tx.objectStore(STORE);
-      let request = store.getAll();
-      request.onsuccess = () => {
-        let all = request.result || [];
-        let filtered = all.filter(f => f.grade === grade && f.subject === subject);
-        resolve(filtered);
-      };
-    });
-  }
-
-  async function deleteFileFromDB(id) {
-    let tx = db.transaction(STORE, "readwrite");
-    tx.objectStore(STORE).delete(id);
-  }
-
-  // قراءة المعاملات
-  const params = new URLSearchParams(window.location.search);
-  const grade = params.get('grade');
-  const subjectName = params.get('subject');
-  
-  document.getElementById("backLink").href = grade + ".html";
-
-  const subjectData = (window.siteConfig?.subjectContent?.[subjectName]) || {
-    title: subjectName,
-    description: "محتوى تعليمي تفاعلي",
-    featuredVideo: "",
-    resources: [],
-    extraHTML: ""
-  };
-  
-  document.getElementById("subjectHeader").innerHTML = `<h1><i class="fas fa-microchip"></i> ${subjectData.title}</h1><p>${subjectData.description}</p>`;
-  if (subjectData.featuredVideo) document.getElementById("videoSection").innerHTML = `<iframe src="${subjectData.featuredVideo}" frameborder="0" allowfullscreen></iframe>`;
-  
-  let resourcesHtml = "<h3>📚 المصادر التعليمية:</h3>";
-  if (subjectData.resources && subjectData.resources.length > 0) {
-    subjectData.resources.forEach(r => {
-      resourcesHtml += `<div class="resource-item"><i class="fas fa-${r.type === 'pdf' ? 'file-pdf' : 'link'}"></i> <a href="${r.url}" target="_blank">${r.name}</a></div>`;
-    });
-  } else {
-    resourcesHtml += "<p>سيتم إضافة مصادر قريباً</p>";
-  }
-  document.getElementById("resourcesSection").innerHTML = resourcesHtml;
-  document.getElementById("extraHTML").innerHTML = subjectData.extraHTML || "";
-
-  // عرض الملفات المرفوعة
-  async function loadFiles() {
-    await openDB();
-    let files = await getFilesByGradeAndSubject(grade, subjectName);
-    let listDiv = document.getElementById("subjectFilesList");
-    if (files.length === 0) {
-      listDiv.innerHTML = "<p style='text-align:center; padding:20px;'>📭 لا توجد ملفات مرفوعة لهذه المادة بعد</p>";
-      return;
+    // ========== IndexedDB Setup ==========
+    const DB_NAME = "EduPlatformDB";
+    const STORE = "files";
+    let db;
+    
+    const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+    const currentUser = localStorage.getItem("adminUser") || "";
+    
+    if (isLoggedIn) {
+        document.getElementById("teacherBadge").innerHTML = `<div class="teacher-badge"><i class="fas fa-chalkboard-teacher"></i> مرحباً معلم ${currentUser} - يمكنك رفع وحذف الملفات</div>`;
+        document.getElementById("uploadSection").style.display = "block";
     }
     
-    // ترتيب الملفات حسب التاريخ (الأحدث أولاً)
-    files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
-    
-    listDiv.innerHTML = files.map(file => {
-      const fileDate = new Date(file.uploadDate).toLocaleDateString('ar-EG');
-      const fileSize = file.size ? (file.size / 1024 / 1024).toFixed(2) + " MB" : "غير معروف";
-      
-      return `
-      <div class="file-card">
-        <div class="file-info">
-          <div><i class="fas fa-${file.extension === 'pdf' ? 'file-pdf' : 'file-alt'}"></i> <strong>${escapeHtml(file.filename)}</strong></div>
-          <div><small>📝 ${escapeHtml(file.description || 'ملف تعليمي')}</small></div>
-          <div><small>📅 ${fileDate} | 💾 ${fileSize} | ❤️ ${file.likes || 0} إعجاب | ⬇️ ${file.downloads || 0} تحميل</small></div>
-        </div>
-        <div class="file-actions">
-          <button class="like-btn" onclick="likeFile(${file.id})" title="إعجاب"><i class="fas fa-heart"></i></button>
-          <button class="download-btn" onclick="downloadFile(${file.id}, '${escapeHtml(file.filename)}')" title="تحميل"><i class="fas fa-download"></i></button>
-          ${isLoggedIn ? `<button class="download-btn" onclick="deleteFile(${file.id})" title="حذف" style="color:#c0392b"><i class="fas fa-trash"></i></button>` : ''}
-        </div>
-      </div>
-    `}).join('');
-  }
+    function openDB() {
+        return new Promise((resolve) => {
+            let request = indexedDB.open(DB_NAME, 1);
+            request.onupgradeneeded = (e) => {
+                db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE)) {
+                    db.createObjectStore(STORE, { keyPath: "id", autoIncrement: true });
+                }
+            };
+            request.onsuccess = (e) => { db = e.target.result; resolve(); };
+            request.onerror = () => resolve();
+        });
+    }
 
-  // رفع ملف جديد (للمعلمين فقط)
-  if (isLoggedIn) {
-    document.getElementById("uploadSubjectBtn").onclick = async () => {
-      let fileInput = document.getElementById("subjectFile");
-      let desc = document.getElementById("fileDesc").value;
-      if (!fileInput.files.length) return Swal.fire("تنبيه", "الرجاء اختيار ملف أولاً", "warning");
-      let file = fileInput.files[0];
-      
-      // حد أقصى 30 ميجابايت
-      if (file.size > 30 * 1024 * 1024) {
-        return Swal.fire("تنبيه", "حجم الملف أكبر من 30 ميجابايت", "error");
-      }
-      
-      let reader = new FileReader();
-      reader.onload = async function(e) {
-        let fileObj = {
-          filename: file.name,
-          extension: file.name.split('.').pop(),
-          description: desc || "ملف تعليمي",
-          grade: grade,
-          subject: subjectName,
-          likes: 0,
-          downloads: 0,
-          data: e.target.result,
-          uploadDate: new Date().toISOString(),
-          size: file.size,
-          uploadedBy: currentUser
-        };
-        await addFileToDB(fileObj);
-        Swal.fire("تم الرفع", "✅ تم رفع الملف بنجاح", "success");
-        document.getElementById("subjectFile").value = "";
-        document.getElementById("fileDesc").value = "";
-        loadFiles();
-      };
-      reader.readAsDataURL(file);
+    async function addFileToDB(fileObj) {
+        return new Promise((resolve) => {
+            let tx = db.transaction(STORE, "readwrite");
+            let store = tx.objectStore(STORE);
+            store.add(fileObj);
+            tx.oncomplete = resolve;
+        });
+    }
+
+    async function getFilesByGradeAndSubject(grade, subject) {
+        return new Promise((resolve) => {
+            let tx = db.transaction(STORE, "readonly");
+            let store = tx.objectStore(STORE);
+            let request = store.getAll();
+            request.onsuccess = () => {
+                let all = request.result || [];
+                let filtered = all.filter(f => f.grade === grade && f.subject === subject);
+                resolve(filtered);
+            };
+        });
+    }
+
+    async function deleteFileFromDB(id) {
+        let tx = db.transaction(STORE, "readwrite");
+        tx.objectStore(STORE).delete(id);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const grade = params.get('grade');
+    const subjectName = params.get('subject');
+    
+    document.getElementById("backLink").href = grade + ".html";
+
+    const subjectData = (window.siteConfig?.subjectContent?.[subjectName]) || {
+        title: subjectName,
+        description: "محتوى تعليمي تفاعلي",
+        featuredVideo: "",
+        resources: [],
+        extraHTML: ""
     };
-  }
-
-  // دالة الإعجاب
-  window.likeFile = async (id) => {
-    let files = await getFilesByGradeAndSubject(grade, subjectName);
-    let file = files.find(f => f.id === id);
-    if (file) {
-      file.likes = (file.likes || 0) + 1;
-      let tx = db.transaction(STORE, "readwrite");
-      tx.objectStore(STORE).put(file);
-      tx.oncomplete = () => loadFiles();
+    
+    document.getElementById("subjectHeader").innerHTML = `<h1><i class="fas fa-microchip"></i> ${subjectData.title}</h1><p>${subjectData.description}</p>`;
+    if (subjectData.featuredVideo) document.getElementById("videoSection").innerHTML = `<iframe src="${subjectData.featuredVideo}" frameborder="0" allowfullscreen></iframe>`;
+    
+    let resourcesHtml = "<h3>📚 المصادر التعليمية:</h3>";
+    if (subjectData.resources && subjectData.resources.length > 0) {
+        subjectData.resources.forEach(r => {
+            resourcesHtml += `<div class="resource-item"><i class="fas fa-${r.type === 'pdf' ? 'file-pdf' : 'link'}"></i> <a href="${r.url}" target="_blank">${r.name}</a></div>`;
+        });
+    } else {
+        resourcesHtml += "<p>سيتم إضافة مصادر قريباً</p>";
     }
-  };
+    document.getElementById("resourcesSection").innerHTML = resourcesHtml;
+    document.getElementById("extraHTML").innerHTML = subjectData.extraHTML || "";
 
-  // دالة التحميل
-  window.downloadFile = async (id, filename) => {
-    let files = await getFilesByGradeAndSubject(grade, subjectName);
-    let file = files.find(f => f.id === id);
-    if (file) {
-      file.downloads = (file.downloads || 0) + 1;
-      let tx = db.transaction(STORE, "readwrite");
-      tx.objectStore(STORE).put(file);
-      let a = document.createElement('a');
-      a.href = file.data;
-      a.download = filename;
-      a.click();
-      setTimeout(() => loadFiles(), 500);
+    async function loadFiles() {
+        await openDB();
+        let files = await getFilesByGradeAndSubject(grade, subjectName);
+        let listDiv = document.getElementById("subjectFilesList");
+        if (files.length === 0) {
+            listDiv.innerHTML = "<p style='text-align:center; padding:20px;'>📭 لا توجد ملفات مرفوعة لهذه المادة بعد</p>";
+            return;
+        }
+        files.sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate));
+        listDiv.innerHTML = files.map(file => `
+            <div class="file-card">
+                <div class="file-info">
+                    <div><i class="fas fa-${file.extension === 'pdf' ? 'file-pdf' : 'file-alt'}"></i> <strong>${escapeHtml(file.filename)}</strong></div>
+                    <div><small>📝 ${escapeHtml(file.description || 'ملف تعليمي')}</small></div>
+                    <div><small>❤️ ${file.likes || 0} إعجاب | ⬇️ ${file.downloads || 0} تحميل</small></div>
+                </div>
+                <div class="file-actions">
+                    <button class="like-btn" onclick="likeFile(${file.id})" title="إعجاب"><i class="fas fa-heart"></i></button>
+                    <button class="download-btn" onclick="downloadFile(${file.id}, '${escapeHtml(file.filename)}')" title="تحميل"><i class="fas fa-download"></i></button>
+                    ${isLoggedIn ? `<button class="delete-btn" onclick="deleteFile(${file.id})" title="حذف" style="background:#c0392b"><i class="fas fa-trash"></i></button>` : ''}
+                </div>
+            </div>
+        `).join('');
     }
-  };
 
-  // دالة الحذف (للمعلمين فقط)
-  window.deleteFile = async (id) => {
-    if (!isLoggedIn) return Swal.fire("غير مسموح", "هذه الخاصية للمعلمين فقط", "error");
-    const result = await Swal.fire({
-      title: 'تأكيد الحذف',
-      text: 'هل أنت متأكد من حذف هذا الملف؟',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'نعم، احذف',
-      cancelButtonText: 'إلغاء'
-    });
-    if (result.isConfirmed) {
-      await deleteFileFromDB(id);
-      Swal.fire("تم الحذف", "تم حذف الملف بنجاح", "success");
-      loadFiles();
+    if (isLoggedIn) {
+        document.getElementById("uploadSubjectBtn").onclick = async () => {
+            let fileInput = document.getElementById("subjectFile");
+            let desc = document.getElementById("fileDesc").value;
+            if (!fileInput.files.length) return Swal.fire("تنبيه", "الرجاء اختيار ملف أولاً", "warning");
+            let file = fileInput.files[0];
+            if (file.size > 30 * 1024 * 1024) {
+                return Swal.fire("تنبيه", "حجم الملف أكبر من 30 ميجابايت", "error");
+            }
+            let reader = new FileReader();
+            reader.onload = async function(e) {
+                let fileObj = {
+                    filename: file.name,
+                    extension: file.name.split('.').pop(),
+                    description: desc || "ملف تعليمي",
+                    grade: grade,
+                    subject: subjectName,
+                    likes: 0,
+                    downloads: 0,
+                    data: e.target.result,
+                    uploadDate: new Date().toISOString(),
+                    size: file.size,
+                    uploadedBy: currentUser
+                };
+                await addFileToDB(fileObj);
+                Swal.fire("تم الرفع", "✅ تم رفع الملف بنجاح", "success");
+                document.getElementById("subjectFile").value = "";
+                document.getElementById("fileDesc").value = "";
+                loadFiles();
+            };
+            reader.readAsDataURL(file);
+        };
     }
-  };
 
-  // إعلانات تفاعلية
-  document.getElementById("subjectAd").onclick = () => window.open("https://www.udemy.com", "_blank");
-  document.getElementById("bottomAd").onclick = () => window.open("https://www.google.com/drive/", "_blank");
+    window.likeFile = async (id) => {
+        let files = await getFilesByGradeAndSubject(grade, subjectName);
+        let file = files.find(f => f.id === id);
+        if (file) {
+            file.likes = (file.likes || 0) + 1;
+            let tx = db.transaction(STORE, "readwrite");
+            tx.objectStore(STORE).put(file);
+            tx.oncomplete = () => loadFiles();
+        }
+    };
 
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>]/g, function(m) {
-      if (m === '&') return '&amp;';
-      if (m === '<') return '&lt;';
-      if (m === '>') return '&gt;';
-      return m;
-    });
-  }
+    window.downloadFile = async (id, filename) => {
+        let files = await getFilesByGradeAndSubject(grade, subjectName);
+        let file = files.find(f => f.id === id);
+        if (file) {
+            file.downloads = (file.downloads || 0) + 1;
+            let tx = db.transaction(STORE, "readwrite");
+            tx.objectStore(STORE).put(file);
+            let a = document.createElement('a');
+            a.href = file.data;
+            a.download = filename;
+            a.click();
+            setTimeout(() => loadFiles(), 500);
+        }
+    };
 
-  loadFiles();
+    window.deleteFile = async (id) => {
+        if (!isLoggedIn) return Swal.fire("غير مسموح", "هذه الخاصية للمعلمين فقط", "error");
+        const result = await Swal.fire({
+            title: 'تأكيد الحذف',
+            text: 'هل أنت متأكد من حذف هذا الملف؟',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'نعم، احذف',
+            cancelButtonText: 'إلغاء'
+        });
+        if (result.isConfirmed) {
+            await deleteFileFromDB(id);
+            Swal.fire("تم الحذف", "تم حذف الملف بنجاح", "success");
+            loadFiles();
+        }
+    };
+
+    document.getElementById("subjectAd").onclick = () => window.open("https://www.udemy.com", "_blank");
+    document.getElementById("bottomAd").onclick = () => window.open("https://www.google.com/drive/", "_blank");
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    loadFiles();
 </script>
 </body>
 </html>
