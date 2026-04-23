@@ -2,116 +2,132 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الدخول</title>
+  <title>لوحة التحكم</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Cairo', 'Segoe UI', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-card {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 30px;
-      width: 400px;
-      max-width: 90%;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      text-align: center;
-    }
-    .login-card h1 { color: #1f6e8c; margin-bottom: 1.5rem; }
-    .input-group {
-      margin: 1.2rem 0;
-      text-align: right;
-    }
-    .input-group label { display: block; margin-bottom: 8px; font-weight: bold; }
-    .input-group input {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #e2edf2;
-      border-radius: 25px;
-      font-size: 1rem;
-    }
-    button {
-      background: #1f6e8c;
-      color: white;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 1rem;
-    }
-    .back-link {
-      display: block;
-      margin-top: 1rem;
-      color: #628aa0;
-      text-decoration: none;
-    }
+    body { background: #f5f7fc; font-family: 'Cairo', sans-serif; padding: 2rem; }
+    .container { max-width: 1200px; margin: auto; }
+    .header { background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: white; padding: 1.5rem; border-radius: 20px; text-align: center; }
+    .section { background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 1.5rem; }
+    button { background: #1f6e8c; color: white; border: none; padding: 8px 20px; border-radius: 25px; cursor: pointer; margin: 5px; }
+    .logout { background: #c0392b; }
+    .file-item { background: #f0f4f8; padding: 10px; margin: 8px 0; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+    textarea { width: 100%; padding: 10px; border-radius: 15px; border: 1px solid #ddd; margin: 10px 0; }
+    @media (max-width: 700px) { .file-item { flex-direction: column; } }
   </style>
 </head>
 <body>
-<div class="login-card">
-  <i class="fas fa-chalkboard-user" style="font-size: 3rem; color: #1f6e8c;"></i>
-  <h1>لوحة تحكم المعلم</h1>
-  <div class="input-group">
-    <label><i class="fas fa-user"></i> اسم المستخدم</label>
-    <input type="text" id="username" placeholder="admin">
+<div class="container">
+  <div class="header">
+    <h2><i class="fas fa-chalkboard-user"></i> لوحة التحكم</h2>
+    <button class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
   </div>
-  <div class="input-group">
-    <label><i class="fas fa-lock"></i> كلمة المرور</label>
-    <input type="password" id="password" placeholder="********">
+
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="section">
+    <h3><i class="fas fa-edit"></i> تعديل المحتوى النصي للصفحة الرئيسية</h3>
+    <textarea id="homeContentEditor" rows="6" style="width:100%"></textarea>
+    <button onclick="saveHomeContent()"><i class="fas fa-save"></i> حفظ التغييرات</button>
   </div>
-  <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
-  <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+
+  <div class="section">
+    <h3><i class="fas fa-database"></i> إدارة الملفات المرفوعة</h3>
+    <div id="allFilesList"></div>
+  </div>
 </div>
 
 <script src="data-config.js"></script>
 <script>
-  function doLogin() {
-    const user = document.getElementById("username").value;
-    const pass = document.getElementById("password").value;
-    const correctUser = window.siteConfig?.adminUsername || "admin";
-    const correctPass = window.siteConfig?.adminPassword || "123456";
-    
-    if (user === correctUser && pass === correctPass) {
-      localStorage.setItem("loggedIn", "true");
-      localStorage.setItem("adminUser", user);
-      Swal.fire({
-        icon: 'success',
-        title: 'تم تسجيل الدخول',
-        text: 'مرحباً بك',
-        timer: 1500,
-        showConfirmButton: false
-      }).then(() => {
-        window.location.href = "admin-panel.html";
-      });
-    } else {
-      const teacher = window.siteConfig?.teachers?.find(t => t.username === user && t.password === pass);
-      if (teacher) {
-        localStorage.setItem("loggedIn", "true");
-        localStorage.setItem("adminUser", user);
-        localStorage.setItem("teacherSubject", teacher.subject);
-        Swal.fire({
-          icon: 'success',
-          title: `مرحباً ${teacher.fullName}`,
-          timer: 1500,
-          showConfirmButton: false
-        }).then(() => {
-          window.location.href = "admin-panel.html";
-        });
-      } else {
-        Swal.fire('خطأ', 'بيانات الدخول غير صحيحة', 'error');
-      }
-    }
+  // ========== التحقق من تسجيل الدخول ==========
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
   }
+
+  let db;
+  const DB_NAME = "EduPlatformDB";
+  const STORE = "files";
+
+  function openDB() {
+    return new Promise((resolve) => {
+      let req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = (e) => {
+        db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE)) {
+          db.createObjectStore(STORE, { keyPath: "id", autoIncrement: true });
+        }
+      };
+      req.onsuccess = (e) => { db = e.target.result; resolve(); };
+    });
+  }
+
+  async function getAllFilesFromDB() {
+    return new Promise((resolve) => {
+      let tx = db.transaction(STORE, "readonly");
+      let store = tx.objectStore(STORE);
+      let req = store.getAll();
+      req.onsuccess = () => resolve(req.result || []);
+    });
+  }
+
+  async function deleteFileFromDB(id) {
+    let tx = db.transaction(STORE, "readwrite");
+    tx.objectStore(STORE).delete(id);
+  }
+
+  async function loadStatsAndFiles() {
+    await openDB();
+    let files = await getAllFilesFromDB();
+    document.getElementById("statsGrid").innerHTML = `
+      <div class="stat-card"><i class="fas fa-file-alt"></i><h3>${files.length}</h3><p>إجمالي الملفات</p></div>
+      <div class="stat-card"><i class="fas fa-folder"></i><h3>${new Set(files.map(f=>f.grade)).size}</h3><p>صفوف</p></div>
+      <div class="stat-card"><i class="fas fa-tags"></i><h3>${new Set(files.map(f=>f.subject)).size}</h3><p>مواد</p></div>
+    `;
+    
+    let filesHtml = "";
+    if (files.length === 0) filesHtml = "<p>لا توجد ملفات مرفوعة</p>";
+    files.forEach(file => {
+      filesHtml += `
+        <div class="file-item">
+          <div><strong>${file.filename}</strong> - الصف: ${file.grade || 'غير محدد'} | المادة: ${file.subject || 'غير محدد'}<br><small>${file.description || ''}</small></div>
+          <button onclick="deleteFile(${file.id})" style="background:#e74c3c">حذف</button>
+        </div>
+      `;
+    });
+    document.getElementById("allFilesList").innerHTML = filesHtml;
+    window.deleteFile = async (id) => {
+      await deleteFileFromDB(id);
+      Swal.fire("تم الحذف", "", "success");
+      loadStatsAndFiles();
+    };
+  }
+
+  function loadHomeContentForEdit() {
+    let currentContent = window.siteConfig?.homeContent || "";
+    document.getElementById("homeContentEditor").value = currentContent;
+  }
+  
+  function saveHomeContent() {
+    let newContent = document.getElementById("homeContentEditor").value;
+    localStorage.setItem("customHomeContent", newContent);
+    Swal.fire("تم الحفظ", "سيتم تحديث الصفحة الرئيسية", "success");
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("adminUser");
+    localStorage.removeItem("userRole");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("teacherSubject");
+    window.location.href = "index.html";
+  }
+
+  loadStatsAndFiles();
+  loadHomeContentForEdit();
 </script>
 </body>
 </html>
