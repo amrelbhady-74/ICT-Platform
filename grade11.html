@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الصف الدراسي - منصة البرمجة</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f7fc; font-family: 'Segoe UI', 'Cairo', sans-serif; padding: 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { background: white; padding: 1.5rem; border-radius: 30px; margin-bottom: 2rem; text-align: center; }
+    .subjects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem; }
+    .subject-card { background: white; border-radius: 25px; padding: 1.5rem; text-align: center; cursor: pointer; transition: 0.3s; border: 1px solid #ddd; }
+    .subject-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+    .btn-back { background: #1f6e8c; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none; display: inline-block; margin-bottom: 1rem; }
+    footer { text-align: center; margin-top: 3rem; color: #628aa0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="btn-back"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+  <div class="header">
+    <h1 id="gradeName"></h1>
+    <p>اختر المادة الدراسية:</p>
+  </div>
+  <div id="subjectsContainer" class="subjects-grid"></div>
+  <footer>جميع الحقوق محفوظة - يمكنك تعديل المواد من data-config.js</footer>
+</div>
+<script src="data-config.js"></script>
+<script>
+  // تحديد الصف الحالي من اسم الملف (مثلاً grade6.html)
+  const currentFile = window.location.pathname.split('/').pop().replace('.html', '');
+  const gradeKey = currentFile; // grade6, grade7, grade8, grade9, grade10, grade11
+
+  // عرض اسم الصف
+  const gradeNames = {
+    "grade6": "الصف السادس الابتدائي",
+    "grade7": "الصف الأول الإعدادي",
+    "grade8": "الصف الثاني الإعدادي",
+    "grade9": "الصف الثالث الإعدادي",
+    "grade10": "الصف الأول الثانوي",
+    "grade11": "الصف الثاني الثانوي"
+  };
+  document.getElementById("gradeName").innerText = gradeNames[gradeKey] || "الصف الدراسي";
+
+  // جلب مواد هذا الصف من الكونفيغ
+  let subjectsList = [];
+  if (window.siteConfig && window.siteConfig.subjects && window.siteConfig.subjects[gradeKey]) {
+    subjectsList = window.siteConfig.subjects[gradeKey];
+  } else {
+    // مواد افتراضية
+    subjectsList = ["ICT", "الرياضيات", "العلوم"];
+  }
+
+  // عرض المواد على شكل بطاقات
+  const container = document.getElementById("subjectsContainer");
+  container.innerHTML = subjectsList.map(subject => `
+    <div class="subject-card" onclick="location.href='subject.html?grade=${gradeKey}&subject=${encodeURIComponent(subject)}'">
+      <i class="fas fa-book" style="font-size: 2rem; color: #1f6e8c;"></i>
+      <h3>${subject}</h3>
+      <p>اضغط للدخول للمادة</p>
+    </div>
+  `).join('');
+</script>
+</body>
+</html>

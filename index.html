@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة البرمجة التعليمية - الرئيسية</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #f5f7fc 0%, #eef2f7 100%);
+      font-family: 'Segoe UI', 'Cairo', sans-serif;
+      padding: 2rem;
+      color: #1a2c3e;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .hero {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: 40px;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      position: relative;
+    }
+    .login-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #1f6e8c;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+    }
+    .hero h1 { font-size: 2.5rem; color: #1f6e8c; }
+    .editable-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 30px;
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+    .grades-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .grade-card {
+      background: white;
+      border-radius: 25px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: 0.3s;
+      cursor: pointer;
+      border: 1px solid #e2edf2;
+    }
+    .grade-card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
+    .grade-icon { font-size: 3rem; color: #1f6e8c; margin-bottom: 1rem; }
+    .grade-title { font-size: 1.5rem; font-weight: bold; margin: 1rem 0; }
+    .btn {
+      display: inline-block;
+      background: #1f6e8c;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 40px;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+    /* إعلانات */
+    .ad-banner {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 15px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 20px 0;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .ad-banner:hover { transform: scale(1.02); }
+    footer { text-align: center; margin-top: 3rem; color: #628aa0; }
+    @media (max-width: 700px) { body { padding: 1rem; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <a href="login.html" class="login-btn"><i class="fas fa-user-shield"></i> دخول المعلم</a>
+    <i class="fas fa-laptop-code" style="font-size: 3rem; color: #1f6e8c;"></i>
+    <h1>منصة البرمجة التعليمية</h1>
+    <p>تعلم البرمجة وال ICT من الصف السادس حتى الثانوية</p>
+  </div>
+
+  <!-- إعلان متقدم -->
+  <div class="ad-banner" id="adBanner1">
+    <i class="fas fa-graduation-cap"></i> 🎓 عرض خاص: خصم 50% على دورات البرمجة - اضغط هنا
+  </div>
+
+  <div id="dynamicContent" class="editable-content"></div>
+
+  <h2><i class="fas fa-graduation-cap"></i> اختر صفك الدراسي</h2>
+  <div class="grades-grid" id="gradesGrid"></div>
+
+  <!-- إعلان ثاني -->
+  <div class="ad-banner" id="adBanner2">
+    <i class="fas fa-cloud-upload-alt"></i> 📚 رفع الملفات التعليمية متاح الآن لكل مادة!
+  </div>
+
+  <footer>
+    <i class="fas fa-code"></i> منصة تعليمية متكاملة - يمكنك تعديل المحتوى من ملف data-config.js
+  </footer>
+</div>
+
+<script src="data-config.js"></script>
+<script>
+  function loadHomeContent() {
+    const container = document.getElementById('dynamicContent');
+    if (window.siteConfig && window.siteConfig.homeContent) {
+      container.innerHTML = window.siteConfig.homeContent;
+    } else {
+      container.innerHTML = `<h2>مرحباً بك في منصة تعلم البرمجة</h2><p>هنا ستجد كل ما تحتاجه لتعلم مادة الـ ICT والبرمجة.</p>`;
+    }
+  }
+
+  function buildGrades() {
+    const grid = document.getElementById('gradesGrid');
+    if (window.siteConfig && window.siteConfig.grades) {
+      grid.innerHTML = window.siteConfig.grades.map(grade => `
+        <div class="grade-card" onclick="location.href='${grade.link}'">
+          <div class="grade-icon"><i class="fas ${grade.icon}"></i></div>
+          <div class="grade-title">${grade.name}</div>
+          <p>${grade.description}</p>
+          <span class="btn">الدخول <i class="fas fa-arrow-left"></i></span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // إعلانات دائرية
+  const adsList = [
+    "🔥 اشترك الآن في دورة Python الشاملة بسعر 199 جنيه فقط!",
+    "📱 تطبيقنا الجديد للبرمجة متوفر على Google Play",
+    "🎯 مسابقة أفضل مشروع برمجي - الجائزة 5000 جنيه",
+    "💻 خصم 30% على جميع كورسات Udemy باستخدام كود: EDU2025"
+  ];
+  let adIndex = 0;
+  setInterval(() => {
+    adIndex = (adIndex + 1) % adsList.length;
+    document.getElementById("adBanner1").innerHTML = `<i class="fas fa-ad"></i> ${adsList[adIndex]}`;
+    document.getElementById("adBanner2").innerHTML = `<i class="fas fa-megaphone"></i> ${adsList[(adIndex+2)%adsList.length]}`;
+  }, 8000);
+
+  // روابط إعلانات
+  document.getElementById("adBanner1").onclick = () => window.open("https://www.udemy.com", "_blank");
+  document.getElementById("adBanner2").onclick = () => window.open("https://www.coursera.org", "_blank");
+
+  loadHomeContent();
+  buildGrades();
+</script>
+</body>
+</html>

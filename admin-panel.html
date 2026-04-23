@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>لوحة التحكم - إدارة المحتوى</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #f5f7fc; font-family: 'Cairo', sans-serif; padding: 2rem; }
+    .container { max-width: 1200px; margin: auto; }
+    .header { background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: white; padding: 1.5rem; border-radius: 20px; text-align: center; }
+    .section { background: white; padding: 1.5rem; border-radius: 20px; margin-bottom: 1.5rem; }
+    button { background: #1f6e8c; color: white; border: none; padding: 8px 20px; border-radius: 25px; cursor: pointer; margin: 5px; }
+    .logout { background: #c0392b; }
+    .file-item { background: #f0f4f8; padding: 10px; margin: 8px 0; border-radius: 12px; }
+    textarea { width: 100%; padding: 10px; border-radius: 15px; border: 1px solid #ddd; margin: 10px 0; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h2><i class="fas fa-chalkboard-user"></i> لوحة تحكم المعلم</h2>
+    <button class="logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> تسجيل خروج</button>
+  </div>
+
+  <div class="stats-grid" id="statsGrid"></div>
+
+  <div class="section">
+    <h3><i class="fas fa-edit"></i> تعديل المحتوى النصي للصفحة الرئيسية</h3>
+    <textarea id="homeContentEditor" rows="6" style="width:100%"></textarea>
+    <button onclick="saveHomeContent()"><i class="fas fa-save"></i> حفظ التغييرات</button>
+  </div>
+
+  <div class="section">
+    <h3><i class="fas fa-database"></i> إدارة الملفات المرفوعة (IndexedDB)</h3>
+    <div id="allFilesList"></div>
+  </div>
+</div>
+
+<script src="data-config.js"></script>
+<script>
+  // التحقق من تسجيل الدخول
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+
+  // إحصائيات IndexedDB
+  let db;
+  const DB_NAME = "EduPlatformDB";
+  const STORE = "files";
+
+  function openDB() {
+    return new Promise((resolve) => {
+      let req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = (e) => {
+        db = e.target.result;
+        if (!db.objectStoreNames.contains(STORE)) {
+          db.createObjectStore(STORE, { keyPath: "id", autoIncrement: true });
+        }
+      };
+      req.onsuccess = (e) => { db = e.target.result; resolve(); };
+    });
+  }
+
+  async function getAllFilesFromDB() {
+    return new Promise((resolve) => {
+      let tx = db.transaction(STORE, "readonly");
+      let store = tx.objectStore(STORE);
+      let req = store.getAll();
+      req.onsuccess = () => resolve(req.result || []);
+    });
+  }
+
+  async function deleteFileFromDB(id) {
+    let tx = db.transaction(STORE, "readwrite");
+    tx.objectStore(STORE).delete(id);
+  }
+
+  async function loadStatsAndFiles() {
+    await openDB();
+    let files = await getAllFilesFromDB();
+    document.getElementById("statsGrid").innerHTML = `
+      <div class="stat-card"><i class="fas fa-file-alt"></i><h3>${files.length}</h3><p>إجمالي الملفات</p></div>
+      <div class="stat-card"><i class="fas fa-folder"></i><h3>${new Set(files.map(f=>f.grade)).size}</h3><p>صفوف</p></div>
+      <div class="stat-card"><i class="fas fa-tags"></i><h3>${new Set(files.map(f=>f.subject)).size}</h3><p>مواد</p></div>
+    `;
+    
+    let filesHtml = "<h4>جميع الملفات المرفوعة:</h4>";
+    if (files.length === 0) filesHtml += "<p>لا توجد ملفات مرفوعة بعد</p>";
+    files.forEach(file => {
+      filesHtml += `
+        <div class="file-item">
+          <strong>${file.filename}</strong> - الصف: ${file.grade || 'غير محدد'} | المادة: ${file.subject || 'غير محدد'}<br>
+          <small>${file.description || ''}</small>
+          <button onclick="deleteFile(${file.id})" style="background:#e74c3c">حذف</button>
+        </div>
+      `;
+    });
+    document.getElementById("allFilesList").innerHTML = filesHtml;
+    window.deleteFile = async (id) => {
+      await deleteFileFromDB(id);
+      Swal.fire("تم الحذف", "", "success");
+      loadStatsAndFiles();
+    };
+  }
+
+  // تعديل المحتوى النصي
+  function loadHomeContentForEdit() {
+    let currentContent = window.siteConfig?.homeContent || "";
+    document.getElementById("homeContentEditor").value = currentContent;
+  }
+  
+  function saveHomeContent() {
+    let newContent = document.getElementById("homeContentEditor").value;
+    // حفظ في localStorage مؤقتاً (في الإصدار الحقيقي نحتاج لتعديل ملف البيانات)
+    localStorage.setItem("customHomeContent", newContent);
+    Swal.fire("تم الحفظ", "سيتم تحديث الصفحة الرئيسية بعد إعادة التحميل", "success");
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("adminUser");
+    window.location.href = "index.html";
+  }
+
+  loadStatsAndFiles();
+  loadHomeContentForEdit();
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - لوحة المعلم</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Cairo', 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-card {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 30px;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .login-card h1 { color: #1f6e8c; margin-bottom: 1.5rem; }
+    .input-group {
+      margin: 1.2rem 0;
+      text-align: right;
+    }
+    .input-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2edf2;
+      border-radius: 25px;
+      font-size: 1rem;
+    }
+    button {
+      background: #1f6e8c;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    .back-link {
+      display: block;
+      margin-top: 1rem;
+      color: #628aa0;
+      text-decoration: none;
+    }
+    .info {
+      background: #eef2fa;
+      padding: 15px;
+      border-radius: 15px;
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+<div class="login-card">
+  <i class="fas fa-chalkboard-user" style="font-size: 3rem; color: #1f6e8c;"></i>
+  <h1>لوحة تحكم المعلم</h1>
+  <div class="input-group">
+    <label><i class="fas fa-user"></i> اسم المستخدم</label>
+    <input type="text" id="username" placeholder="admin">
+  </div>
+  <div class="input-group">
+    <label><i class="fas fa-lock"></i> كلمة المرور</label>
+    <input type="password" id="password" placeholder="********">
+  </div>
+  <button onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> دخول</button>
+  <a href="index.html" class="back-link"><i class="fas fa-arrow-right"></i> العودة للرئيسية</a>
+  <div class="info">
+    
+  </div>
+</div>
+
+<script src="data-config.js"></script>
+<script>
+  function doLogin() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+    const correctUser = window.siteConfig?.adminUsername || "admin";
+    const correctPass = window.siteConfig?.adminPassword || "123456";
+    
+    if (user === correctUser && pass === correctPass) {
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("adminUser", user);
+      Swal.fire({
+        icon: 'success',
+        title: 'تم تسجيل الدخول',
+        text: 'مرحباً بك في لوحة التحكم',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = "admin-panel.html";
+      });
+    } else {
+      Swal.fire('خطأ', 'اسم المستخدم أو كلمة المرور غير صحيحة', 'error');
+    }
+  }
+</script>
+</body>
+</html>
