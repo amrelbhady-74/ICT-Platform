@@ -1,164 +1,155 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منصة البرمجة التعليمية</title>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-     const signature = window.siteConfig?.siteSignature || "✍️ منصة سهلها عليك";
-    document.getElementById("signatureText").innerText = signature;
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-  </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: linear-gradient(135deg, #f5f7fc 0%, #eef2f7 100%);
-      font-family: 'Segoe UI', 'Cairo', sans-serif;
-      padding: 2rem;
-      color: #1a2c3e;
-    }
-    .container { max-width: 1200px; margin: 0 auto; }
-    .hero {
-      text-align: center;
-      padding: 2rem;
-      background: white;
-      border-radius: 40px;
-      margin-bottom: 2rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-      position: relative;
-    }
-    .login-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: #1f6e8c;
-      color: white;
-      padding: 8px 20px;
-      border-radius: 30px;
-      text-decoration: none;
-    }
-    .hero h1 { font-size: 2.5rem; color: #1f6e8c; }
-    .editable-content {
-      background: white;
-      padding: 2rem;
-      border-radius: 30px;
-      margin-bottom: 2rem;
-      line-height: 1.8;
-    }
-    .grades-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .grade-card {
-      background: white;
-      border-radius: 25px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: 0.3s;
-      cursor: pointer;
-      border: 1px solid #e2edf2;
-    }
-    .grade-card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
-    .grade-icon { font-size: 3rem; color: #1f6e8c; margin-bottom: 1rem; }
-    .grade-title { font-size: 1.5rem; font-weight: bold; margin: 1rem 0; }
-    .btn {
-      display: inline-block;
-      background: #1f6e8c;
-      color: white;
-      padding: 10px 25px;
-      border-radius: 40px;
-      text-decoration: none;
-      margin-top: 1rem;
-    }
-    .ad-banner {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 15px;
-      border-radius: 15px;
-      text-align: center;
-      margin: 20px 0;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .ad-banner:hover { transform: scale(1.02); }
-    footer { text-align: center; margin-top: 3rem; color: #628aa0; }
-    @media (max-width: 700px) { body { padding: 1rem; } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سهلها عليك - منصة ICT التعليمية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(145deg, #f5f7fc 0%, #eef2f7 100%);
+            font-family: 'Segoe UI', 'Cairo', sans-serif;
+            padding: 2rem;
+            color: #1a2c3e;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .site-header {
+            text-align: center;
+            background: white;
+            border-radius: 50px;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .site-name {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #1f6e8c;
+        }
+        .login-mini {
+            float: left;
+            margin-top: 8px;
+            background: #eef2fa;
+            padding: 6px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+        }
+        .login-mini a { text-decoration: none; color: #1f6e8c; }
+        .description-card {
+            background: white;
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            border-right: 5px solid #1f6e8c;
+        }
+        .grades-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        .grade-card {
+            background: white;
+            border-radius: 25px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 1px solid #e2edf2;
+        }
+        .grade-card:hover { transform: translateY(-8px); box-shadow: 0 20px 30px rgba(0,0,0,0.1); }
+        .grade-icon { font-size: 3rem; color: #1f6e8c; }
+        .grade-title { font-size: 1.3rem; font-weight: bold; margin: 1rem 0; }
+        .btn {
+            background: #1f6e8c;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+        .ad-banner {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1rem;
+            border-top: 1px solid #ddd;
+            color: #628aa0;
+        }
+        .signature {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            color: #2c3e66;
+        }
+        @media (max-width: 700px) { body { padding: 1rem; } .site-name { font-size: 1.6rem; } }
+    </style>
 </head>
 <body>
 <div class="container">
-  <div class="hero">
-    <a href="login.html" class="login-btn"><i class="fas fa-user-shield"></i> دخول المعلم</a>
-    <i class="fas fa-laptop-code" style="font-size: 3rem; color: #1f6e8c;"></i>
-    <h1>منصة البرمجة التعليمية</h1>
-    <p>تعلم البرمجة وال ICT من الصف السادس حتى الثانوية</p>
-  </div>
+    <div class="site-header">
+        <div class="login-mini">
+            <a href="login.html"><i class="fas fa-user-shield"></i> دخول المعلم</a>
+        </div>
+        <div class="site-name">🧠 سهلها عليك <span style="font-size:0.9rem;">.edu</span></div>
+        <p style="margin-top: 6px;">منصة رفع وتحميل ملفات ICT والبرمجة</p>
+    </div>
 
-  <div class="ad-banner" id="adBanner1">
-    <i class="fas fa-graduation-cap"></i> 🎓 عرض خاص: خصم 50% على دورات البرمجة
-  </div>
+    <div class="description-card">
+        <h2><i class="fas fa-graduation-cap"></i> منصة "سهلها عليك" التعليمية</h2>
+        <p>منصة متكاملة لـ <strong>مادة تكنولوجيا المعلومات (ICT)</strong> والبرمجة، للمعلمين والطلاب من الصف السادس حتى الثاني الثانوي.</p>
+        <p>🎯 هدفنا: تبسيط التعليم الرقمي، وتوفير بيئة آمنة للمعلمين لمشاركة ملفاتهم، وللطلاب للوصول إلى أفضل المواد التعليمية.</p>
+    </div>
 
-  <div id="dynamicContent" class="editable-content"></div>
+    <div class="ad-banner" id="adBannerTop">🎓 خصم 50% على دورات البرمجة – اضغط هنا</div>
 
-  <h2><i class="fas fa-graduation-cap"></i> اختر صفك الدراسي</h2>
-  <div class="grades-grid" id="gradesGrid"></div>
+    <h2><i class="fas fa-chalkboard"></i> اختر صفك الدراسي</h2>
+    <div class="grades-grid" id="gradesGrid"></div>
 
-  <div class="ad-banner" id="adBanner2">
-    <i class="fas fa-cloud-upload-alt"></i> 📚 رفع الملفات التعليمية متاح لكل مادة
-  </div>
+    <div class="ad-banner" id="adBannerBottom">📚 رفع الملفات متاح لكل مادة – للمعلمين فقط</div>
 
-  <footer>
-    <i class="fas fa-code"></i> منصة تعليمية متكاملة
-  </footer>
+    <footer>
+        <div>© 2025 منصة سهلها عليك – جميع الحقوق محفوظة</div>
+        <div class="signature">
+            ✍️ <strong>م.عمرو ابراهيم البهادي</strong> – للتواصل: 01112151629
+        </div>
+    </footer>
 </div>
 
 <script src="data-config.js"></script>
 <script>
-  function loadHomeContent() {
-    const container = document.getElementById('dynamicContent');
-    if (window.siteConfig && window.siteConfig.homeContent) {
-      container.innerHTML = window.siteConfig.homeContent;
+    function buildGrades() {
+        const grid = document.getElementById('gradesGrid');
+        if (window.siteConfig && window.siteConfig.grades) {
+            grid.innerHTML = window.siteConfig.grades.map(grade => `
+                <div class="grade-card" onclick="location.href='${grade.link}'">
+                    <div class="grade-icon"><i class="fas ${grade.icon}"></i></div>
+                    <div class="grade-title">${grade.name}</div>
+                    <p>${grade.description}</p>
+                    <span class="btn">الدخول <i class="fas fa-arrow-left"></i></span>
+                </div>
+            `).join('');
+        }
     }
-  }
-
-  function buildGrades() {
-    const grid = document.getElementById('gradesGrid');
-    if (window.siteConfig && window.siteConfig.grades) {
-      grid.innerHTML = window.siteConfig.grades.map(grade => `
-        <div class="grade-card" onclick="location.href='${grade.link}'">
-          <div class="grade-icon"><i class="fas ${grade.icon}"></i></div>
-          <div class="grade-title">${grade.name}</div>
-          <p>${grade.description}</p>
-          <span class="btn">الدخول <i class="fas fa-arrow-left"></i></span>
-        </div>
-      `).join('');
-    }
-  }
-
-  const adsList = window.siteConfig?.ads?.messages || [
-    "🔥 اشترك الآن في دورة Python الشاملة",
-    "📱 تطبيقنا الجديد متوفر على Google Play"
-  ];
-  let adIndex = 0;
-  setInterval(() => {
-    adIndex = (adIndex + 1) % adsList.length;
-    document.getElementById("adBanner1").innerHTML = `<i class="fas fa-ad"></i> ${adsList[adIndex]}`;
-    document.getElementById("adBanner2").innerHTML = `<i class="fas fa-megaphone"></i> ${adsList[(adIndex+2)%adsList.length]}`;
-  }, 8000);
-
-  document.getElementById("adBanner1").onclick = () => window.open("https://www.udemy.com", "_blank");
-  document.getElementById("adBanner2").onclick = () => window.open("https://www.coursera.org", "_blank");
-
-  loadHomeContent();
-  buildGrades();
+    const ads = window.siteConfig?.ads?.messages || ["🔥 عرض خاص", "📱 تطبيق المنصة"];
+    let adIndex = 0;
+    setInterval(() => {
+        adIndex = (adIndex + 1) % ads.length;
+        const topAd = document.getElementById("adBannerTop");
+        const bottomAd = document.getElementById("adBannerBottom");
+        if (topAd) topAd.innerHTML = `<i class="fas fa-ad"></i> ${ads[adIndex]}`;
+        if (bottomAd) bottomAd.innerHTML = `<i class="fas fa-megaphone"></i> ${ads[(adIndex+2)%ads.length]}`;
+    }, 8000);
+    buildGrades();
 </script>
 </body>
 </html>
