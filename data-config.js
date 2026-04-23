@@ -3,10 +3,11 @@
 // =====================================================
 
 window.siteConfig = {
-  // ========== إعدادات المدير / المعلمين ==========
+  // ========== إعدادات المدير / المعلمين ==========,
   // حساب المدير الرئيسي
-  adminUsername: "admin",
-  adminPassword: "123456",
+  adminUsername: "sysadmin",
+  adminPassword: "amr1907",
+  siteSignature: " ✍️ تصميم وتطوير: م.عمرو ابراهيم البهادي | جميع الحقوق محفوظة |01112151629",
   
   // قائمة المعلمين الإضافيين
   teachers: [
@@ -299,4 +300,4 @@ window.formatDate = function(dateString) {
   const date = new Date(dateString);
   return date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' });
 };
-siteSignature: " تصميم وتطوير: م. عمرو ابراهيم البهادي | جميع الحقوق محفوظة"✍️ للتواصل 01112151629,
+
